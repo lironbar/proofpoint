@@ -1,0 +1,83 @@
+
+<header class="header-container text-center">
+  <div>
+    <img id="logo" ng-src="http://www.nexdimension.net/wp-content/uploads/2013/07/Microsoft_Dynamics_Logo-PD.png" />
+    <h4 id="logoText">TBP</h4>
+  </div>
+  <span id="titleSm"> Journey Through The Best Book List </span>
+  <h1 id="titleLg"> The Book Project </h1>
+  <h3 id="titleMd"> Explore-Love-Read </h3>
+
+  <div class="row marginTop">
+    <div class="center">
+      <div class="form-group col-sm-offset-3 col-sm-3 col-xs-6">
+        <label>Search For A Book:</label>
+        <input placeholder="Search..." ng-model="query" class="form-control" />
+      </div>
+      <div class="form-group col-sm-3 col-xs-6">
+        <label>Sort by:</label>
+        <select ng-model="orderProp" class="form-control">
+          <option value="Id">Book's Popularity</option>
+          <option value="Title">Book's Title</option>
+          <option value="Autuor">Book's Autuor</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="marginTop table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th><i class="material-icons">format_list_numbered</i></th>
+          <th></th>
+          <th>Book Title</th>
+          <th>Book Autuor</th>
+          <th>Published</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="book in books | filter: query  | orderBy: orderProp track by $index">
+          <td> {{$index + 1}}</td>
+          <td> <img ng-src="{{book.Image}}"/> </td>
+          <td>
+            <span editable-text="book.Title" e-name="Title" e-form="rowform" onbeforesave="checkField($data)">
+              {{ book.Title | capitalize}}
+            </span>
+          </td>
+
+          <td>
+            <span editable-text="book.Autuor" e-name="Autuor" e-form="rowform" onbeforesave="checkField($data)">
+              {{ book.Autuor }}
+            </span>
+          </td>
+
+          <td>
+            <span editable-date="book.Date" e-name="Date" e-form="rowform" onbeforesave="checkField($data)">
+              {{ book.Date | date: "MM/dd/yyyy" }}
+            </span>
+          </td>
+
+          <td id="btnWarp">
+            <!-- form -->
+            <form editable-form name="rowform" onbeforesave="saveUser($data, book.Id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == book">
+              <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                save
+              </button>
+              <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                cancel
+              </button>
+            </form>
+            <div class="buttons" ng-show="!rowform.$visible">
+              <button type="button" class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+              <button type="button" class="btn btn-danger" ng-click="removeBook($index)">del</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
