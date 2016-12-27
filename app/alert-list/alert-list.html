@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <span type="button" class="newBtn" ng-click="addNewAlert()">
+        <i class="fa fa-plus" aria-hidden="true"></i> NEW ALERT</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-xs-3">
+        <input placeholder="Search" ng-model="query" class="form-control" />
+        <nav>
+          <ul>
+            <li ng-repeat="alert in alertList | filter: query track by $index">
+              <a ng-click="getAlert(alert, $index)"> {{alert.Name | capitalize }} </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="col-xs-9">
+        <div id="backgroundWrapper">
+          <div id="backgroundWrapper2">
+            <div id="wrapper">
+
+              <form>
+                <div class="infoBox">
+                  <h5> <i class="fa fa-info-circle" aria-hidden="true"></i> ID</h5>
+                </div>
+
+                <div class="marginBottom">
+                  <span>{{ theAlert.Id }}</span>
+                </div>
+
+                <div class="infoBox">
+                  <h5> <i class="fa fa-pencil" aria-hidden="true"></i> NAME</h5>
+                </div>
+
+                <div class="marginBottom">
+                  <span class="noBr" contenteditable ng-model="theAlert.Name" ></span>
+                  <p class="error" ng-if="theAlert.Name == '*'">*Please enter a name.</p>
+                </div>
+
+                <div class="infoBox">
+                  <h5> <i class="fa fa-pencil-square" aria-hidden="true"></i> DESCRIPTION</h5>
+                </div>
+
+                <div class="marginBottom">
+                  <span class="noBr" contenteditable ng-model="theAlert.Description" ></span>
+                  <p class="error" ng-if="theAlert.Description == '*'">*Please enter a description.</p>
+                </div>
+
+                <div class="infoBox">
+                  <h5> <i class="fa fa-plus-square" aria-hidden="true"></i> DETAILS</h5>
+                </div>
+
+                <label>Application: </label>
+                <div id="dropDown">
+                  <ul>
+                    <li><a>{{theAlert.Details}}</a>
+                      <ul id="menu-item">
+                        <li ng-repeat="item in itemList">
+                          <a ng-click="dropDownList(item)">{{item}}</a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-offset-3 col-xs-9">
+        <button type="button" class="btn btn-danger" ng-click="removeAlert()">Delete</button>
+        <button type="submit" ng-disabled="theAlert.Name == '*' || theAlert.Description == '*'" class="btn btn-primary newBtn" ng-click="saveAlert(theAlert)"> Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
